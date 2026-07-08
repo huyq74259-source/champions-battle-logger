@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.championslogger.data.BattleDatabase
-import com.championslogger.data.BattleLog
 import com.championslogger.service.OverlayService
 import com.championslogger.ui.BattleHistoryScreen
 import com.championslogger.ui.OverlayControlsScreen

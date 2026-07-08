@@ -170,55 +170,57 @@ fun TurnCard(turn: TurnRecord) {
                 color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(4.dp))
+
+            // My side
+            Text("YOU:", fontSize = 11.sp, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.primary)
             Row(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        "YOU: ${turn.myPokemon}",
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.primary
+                    Text("P1: ${turn.myPokemon1}", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurface)
+                    Text("→ ${turn.myMove1}", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    if (turn.myHp1Before >= 0) Text(
+                        "HP: ${turn.myHp1Before}% → ${turn.myHp1After}%",
+                        fontSize = 9.sp, color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Text(
-                        "→ ${turn.myMove}",
-                        fontSize = 11.sp,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    if (turn.myHpBefore >= 0) {
-                        Text(
-                            "HP: ${turn.myHpBefore}% → ${turn.myHpAfter}%",
-                            fontSize = 10.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
                 }
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        "OPP: ${turn.opponentPokemon}",
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = MaterialTheme.colorScheme.error
+                    Text("P2: ${turn.myPokemon2}", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurface)
+                    Text("→ ${turn.myMove2}", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    if (turn.myHp2Before >= 0) Text(
+                        "HP: ${turn.myHp2Before}% → ${turn.myHp2After}%",
+                        fontSize = 9.sp, color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Text(
-                        "→ ${turn.opponentMove}",
-                        fontSize = 11.sp,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    if (turn.opponentHpBefore >= 0) {
-                        Text(
-                            "HP: ${turn.opponentHpBefore}% → ${turn.opponentHpAfter}%",
-                            fontSize = 10.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
                 }
             }
-            if (turn.notes.isNotBlank()) {
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            // Opponent side
+            Text("OPP:", fontSize = 11.sp, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.error)
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("P1: ${turn.opponentPokemon1}", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurface)
+                    Text("→ ${turn.opponentMove1}", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    if (turn.opponentHp1Before >= 0) Text(
+                        "HP: ${turn.opponentHp1Before}% → ${turn.opponentHp1After}%",
+                        fontSize = 9.sp, color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("P2: ${turn.opponentPokemon2}", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurface)
+                    Text("→ ${turn.opponentMove2}", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    if (turn.opponentHp2Before >= 0) Text(
+                        "HP: ${turn.opponentHp2Before}% → ${turn.opponentHp2After}%",
+                        fontSize = 9.sp, color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            if (turn.events.isNotBlank()) {
                 Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    "📝 ${turn.notes}",
-                    fontSize = 10.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Text("⚡ ${turn.events}", fontSize = 10.sp, color = MaterialTheme.colorScheme.secondary)
+            }
+            if (turn.notes.isNotBlank()) {
+                Text("📝 ${turn.notes}", fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     }

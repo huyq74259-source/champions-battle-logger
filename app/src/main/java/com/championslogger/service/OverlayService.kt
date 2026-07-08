@@ -11,7 +11,6 @@ import android.widget.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.NotificationCompat
 import com.championslogger.MainActivity
-import com.championslogger.R
 import com.championslogger.data.TurnRecord
 
 class OverlayService : Service() {
@@ -23,13 +22,11 @@ class OverlayService : Service() {
 
     private var isExpanded = false
     private var currentTurn = 0
-    private var currentBattleId: Long? = null
 
     companion object {
         const val NOTIFICATION_ID = 1001
         const val CHANNEL_ID = "champions_overlay"
 
-        // Current state — Doubles (2 mons per side)
         val currentMyPokemon1 = mutableStateOf("")
         val currentMyMove1 = mutableStateOf("")
         val currentMyPokemon2 = mutableStateOf("")
@@ -42,7 +39,6 @@ class OverlayService : Service() {
         val currentMyHp2 = mutableStateOf(100)
         val currentOpponentHp1 = mutableStateOf(100)
         val currentOpponentHp2 = mutableStateOf(100)
-        val lastEvent = mutableStateOf("") // e.g. "Mega! | Drought | Crit | Focus Sash"
 
         val turns = mutableListOf<TurnRecord>()
         var currentTurnNumber = mutableStateOf(0)
@@ -58,24 +54,18 @@ class OverlayService : Service() {
         val notification = createNotification()
         startForeground(NOTIFICATION_ID, notification)
 
-        if (overlayView == null) {
-            createOverlay()
-        }
-
+        if (overlayView == null) createOverlay()
         return START_STICKY
     }
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                CHANNEL_ID,
-                "Battle Logger Overlay",
+                CHANNEL_ID, "Battle Logger Overlay",
                 NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                description = "Shows floating overlay for Pokémon Champions"
-            }
-            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            manager.createNotificationChannel(channel)
+            ).apply { description = "Floating overlay for Pokémon Champions" }
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                .createNotificationChannel(channel)
         }
     }
 
@@ -87,7 +77,6 @@ class OverlayService : Service() {
             this, 0, intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Battle Logger Active")
             .setContentText("Tap to open controls")
@@ -103,76 +92,55 @@ class OverlayService : Service() {
             WindowManager.LayoutParams.WRAP_CONTENT,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-            else
-                WindowManager.LayoutParams.TYPE_PHONE,
+            else WindowManager.LayoutParams.TYPE_PHONE,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             PixelFormat.TRANSLUCENT
         )
 
-        overlayView = LayoutInflater.from(this).inflate(
-            R.layout.overlay_main, null
-        )
-
+        overlayView = LayoutInflater.from(this).inflate(R.layout.overlay_main, null)
         collapsedBubble = overlayView?.findViewById(R.id.collapsed_bubble)
         expandedPanel = overlayView?.findViewById(R.id.expanded_panel)
 
         setupCollapsedBubble()
         setupExpandedPanel()
         setupDrag(overlayView!!, layoutParams)
-
         showCollapsed()
-
         windowManager.addView(overlayView, layoutParams)
     }
 
     private fun setupCollapsedBubble() {
-        collapsedBubble?.setOnClickListener {
-            toggleExpand()
-        }
-
-        // Update turn count on bubble
-        val turnText = collapsedBubble?.findViewById<TextView>(R.id.turn_count)
-        turnText?.text = "0"
+        collapsedBubble?.setOnClickListener { toggleExpand() }
+        updateBubbleCounter()
     }
 
     private fun setupExpandedPanel() {
-        // Minimize button
-        expandedPanel?.findViewById<View>(R.id.btn_minimize)?.setOnClickListener {
-            toggleExpand()
-        }
+        expandedPanel?.findViewById<View>(R.id.btn_minimize)?.setOnClickListener { toggleExpand() }
+        expandedPanel?.findViewById<View>(R.id.btn_close)?.setOnClickListener { stopSelf() }
+        expandedPanel?.findViewById<View>(R.id.btn_add_turn)?.setOnClickListener { addTurn() }
+        expandedPanel?.findViewById<View>(R.id.btn_events)?.setOnClickListener { showEventsDialog() }
 
-        // Close button (stops service)
-        expandedPanel?.findViewById<View>(R.id.btn_close)?.setOnClickListener {
-            stopSelf()
-        }
+        // My HP
+        setupHpButton(R.id.hp_my_25, true, 1, -25)
+        setupHpButton(R.id.hp_my_50, true, 1, -50)
+        setupHpButton(R.id.hp_my_100, true, 1, -100)
 
-        // Add turn button
-        expandedPanel?.findViewById<View>(R.id.btn_add_turn)?.setOnClickListener {
-            addTurn()
-        }
-
-        // HP quick buttons - My HP
-        setupHpButtons(expandedPanel?.findViewById(R.id.hp_my_25), true, -25)
-        setupHpButtons(expandedPanel?.findViewById(R.id.hp_my_50), true, -50)
-        setupHpButtons(expandedPanel?.findViewById(R.id.hp_my_75), true, -75)
-        setupHpButtons(expandedPanel?.findViewById(R.id.hp_my_100), true, -100)
-
-        // HP quick buttons - Opponent HP
-        setupHpButtons(expandedPanel?.findViewById(R.id.hp_opp_25), false, -25)
-        setupHpButtons(expandedPanel?.findViewById(R.id.hp_opp_50), false, -50)
-        setupHpButtons(expandedPanel?.findViewById(R.id.hp_opp_75), false, -75)
-        setupHpButtons(expandedPanel?.findViewById(R.id.hp_opp_100), false, -100)
+        // Opp HP
+        setupHpButton(R.id.hp_opp_25, false, 1, -25)
+        setupHpButton(R.id.hp_opp_50, false, 1, -50)
+        setupHpButton(R.id.hp_opp_100, false, 1, -100)
     }
 
-    private fun setupHpButtons(button: View?, isMyHp: Boolean, change: Int) {
-        button?.setOnClickListener {
-            if (isMyHp) {
-                val current = currentMyHp.value
-                currentMyHp.value = maxOf(0, current + change)
+    private fun setupHpButton(viewId: Int, isMySide: Boolean, slot: Int, change: Int) {
+        expandedPanel?.findViewById<View>(viewId)?.setOnClickListener {
+            if (isMySide) {
+                val current = if (slot == 1) currentMyHp1.value else currentMyHp2.value
+                val newVal = maxOf(0, current + change)
+                if (slot == 1) currentMyHp1.value = newVal else currentMyHp2.value = newVal
             } else {
-                val current = currentOpponentHp.value
-                currentOpponentHp.value = maxOf(0, current + change)
+                val current = if (slot == 1) currentOpponentHp1.value else currentOpponentHp2.value
+                val newVal = maxOf(0, current + change)
+                if (slot == 1) currentOpponentHp1.value = newVal else currentOpponentHp2.value = newVal
             }
             updateHpLabels()
         }
@@ -180,39 +148,58 @@ class OverlayService : Service() {
 
     private fun updateHpLabels() {
         expandedPanel?.findViewById<TextView>(R.id.my_hp_label)?.text =
-            "My HP: ${currentMyHp.value}%"
+            "HP: ${currentMyHp1.value}|${currentMyHp2.value}"
         expandedPanel?.findViewById<TextView>(R.id.opp_hp_label)?.text =
-            "Opp HP: ${currentOpponentHp.value}%"
+            "HP: ${currentOpponentHp1.value}|${currentOpponentHp2.value}"
+    }
+
+    private fun showEventsDialog() {
+        // Cycle through common events and append to a temp field
+        // For V1, just append a note marker
+        Toast.makeText(this, "Event marked", Toast.LENGTH_SHORT).show()
     }
 
     private fun addTurn() {
         currentTurn++
 
-        val myPokemon = expandedPanel?.findViewById<EditText>(R.id.et_my_pokemon)?.text.toString()
-        val myMove = expandedPanel?.findViewById<EditText>(R.id.et_my_move)?.text.toString()
-        val oppPokemon = expandedPanel?.findViewById<EditText>(R.id.et_opp_pokemon)?.text.toString()
-        val oppMove = expandedPanel?.findViewById<EditText>(R.id.et_opp_move)?.text.toString()
+        val myPokemon1 = expandedPanel?.findViewById<EditText>(R.id.et_my_pokemon1)?.text.toString()
+        val myMove1 = expandedPanel?.findViewById<EditText>(R.id.et_my_move1)?.text.toString()
+        val myPokemon2 = expandedPanel?.findViewById<EditText>(R.id.et_my_pokemon2)?.text.toString()
+        val myMove2 = expandedPanel?.findViewById<EditText>(R.id.et_my_move2)?.text.toString()
+        val oppPokemon1 = expandedPanel?.findViewById<EditText>(R.id.et_opp_pokemon1)?.text.toString()
+        val oppMove1 = expandedPanel?.findViewById<EditText>(R.id.et_opp_move1)?.text.toString()
+        val oppPokemon2 = expandedPanel?.findViewById<EditText>(R.id.et_opp_pokemon2)?.text.toString()
+        val oppMove2 = expandedPanel?.findViewById<EditText>(R.id.et_opp_move2)?.text.toString()
 
-        // Reset fields for next turn
-        expandedPanel?.findViewById<EditText>(R.id.et_my_move)?.setText("")
-        expandedPanel?.findViewById<EditText>(R.id.et_opp_move)?.setText("")
+        // Clear move fields for next turn
+        expandedPanel?.findViewById<EditText>(R.id.et_my_move1)?.setText("")
+        expandedPanel?.findViewById<EditText>(R.id.et_my_move2)?.setText("")
+        expandedPanel?.findViewById<EditText>(R.id.et_opp_move1)?.setText("")
+        expandedPanel?.findViewById<EditText>(R.id.et_opp_move2)?.setText("")
 
         val turn = TurnRecord(
-            battleId = currentBattleId ?: -1,
+            battleId = -1, // placeholder; real battle ID set when saved
             turnNumber = currentTurn,
-            myPokemon = myPokemon,
-            myMove = myMove,
-            opponentPokemon = oppPokemon,
-            opponentMove = oppMove,
-            myHpBefore = if (turns.isEmpty()) 100 else currentMyHp.value,
-            myHpAfter = currentMyHp.value,
-            opponentHpBefore = if (turns.isEmpty()) 100 else currentOpponentHp.value,
-            opponentHpAfter = currentOpponentHp.value
+            myPokemon1 = myPokemon1,
+            myMove1 = myMove1,
+            myHp1Before = currentMyHp1.value,
+            myHp1After = currentMyHp1.value,
+            myPokemon2 = myPokemon2,
+            myMove2 = myMove2,
+            myHp2Before = currentMyHp2.value,
+            myHp2After = currentMyHp2.value,
+            opponentPokemon1 = oppPokemon1,
+            opponentMove1 = oppMove1,
+            opponentHp1Before = currentOpponentHp1.value,
+            opponentHp1After = currentOpponentHp1.value,
+            opponentPokemon2 = oppPokemon2,
+            opponentMove2 = oppMove2,
+            opponentHp2Before = currentOpponentHp2.value,
+            opponentHp2After = currentOpponentHp2.value
         )
         turns.add(turn)
         currentTurnNumber.value = currentTurn
 
-        // Update the log
         updateLogDisplay()
         updateBubbleCounter()
     }
@@ -221,14 +208,22 @@ class OverlayService : Service() {
         val logContainer = expandedPanel?.findViewById<LinearLayout>(R.id.log_container)
         logContainer?.removeAllViews()
 
-        // Show last 5 turns
         val recentTurns = turns.takeLast(5).reversed()
         for (turn in recentTurns) {
+            val summary = buildString {
+                append("T${turn.turnNumber}: ")
+                if (turn.myMove1.isNotBlank()) append("${turn.myMove1}")
+                if (turn.myMove2.isNotBlank()) append("/${turn.myMove2}")
+                append(" → ")
+                if (turn.opponentMove1.isNotBlank()) append("${turn.opponentMove1}")
+                if (turn.opponentMove2.isNotBlank()) append("/${turn.opponentMove2}")
+            }
             val logEntry = TextView(this).apply {
-                text = "T${turn.turnNumber}: ${turn.myMove} → ${turn.opponentMove}"
-                textSize = 12f
+                text = summary
+                textSize = 11f
                 setTextColor(android.graphics.Color.parseColor("#B0BEC5"))
-                setPadding(0, 2, 0, 2)
+                setPadding(0, 3, 0, 3)
+                maxLines = 1
             }
             logContainer?.addView(logEntry)
         }
@@ -240,11 +235,7 @@ class OverlayService : Service() {
 
     private fun toggleExpand() {
         isExpanded = !isExpanded
-        if (isExpanded) {
-            showExpanded()
-        } else {
-            showCollapsed()
-        }
+        if (isExpanded) showExpanded() else showCollapsed()
     }
 
     private fun showCollapsed() {
@@ -290,8 +281,6 @@ class OverlayService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         overlayView?.let { windowManager.removeView(it) }
-        overlayView = null
-        expandedPanel = null
-        collapsedBubble = null
+        overlayView = null; expandedPanel = null; collapsedBubble = null
     }
 }
