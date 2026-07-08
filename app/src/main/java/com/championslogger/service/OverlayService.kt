@@ -64,8 +64,8 @@ class OverlayService : Service() {
                 CHANNEL_ID, "Battle Logger Overlay",
                 NotificationManager.IMPORTANCE_LOW
             ).apply { description = "Floating overlay for Pokémon Champions" }
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-                .createNotificationChannel(channel)
+            val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            nm.createNotificationChannel(channel)
         }
     }
 
