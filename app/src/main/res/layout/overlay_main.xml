@@ -99,100 +99,144 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#3FFFFFFF"
-                android:layout_marginVertical="8dp" />
+                android:layout_marginVertical="6dp" />
 
-            <!-- My Side -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="— MY POKEMON —"
-                android:textColor="#64B5F6"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_my_pokemon"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:hint="My Pokémon"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#80FFFFFF"
-                android:textSize="12sp"
-                android:background="#33000000"
-                android:paddingHorizontal="8dp"
-                android:singleLine="true" />
-
-            <EditText
-                android:id="@+id/et_my_move"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:hint="Move used"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#80FFFFFF"
-                android:textSize="12sp"
-                android:background="#33000000"
-                android:paddingHorizontal="8dp"
-                android:singleLine="true"
-                android:layout_marginTop="4dp" />
-
-            <TextView
-                android:id="@+id/my_hp_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="My HP: 100%"
-                android:textColor="#A5D6A7"
-                android:textSize="11sp"
-                android:layout_marginTop="4dp" />
-
+            <!-- My Pokemon 1 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="2dp">
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="P1:"
+                    android:textColor="#64B5F6"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="4dp" />
+
+                <EditText
+                    android:id="@+id/et_my_pokemon1"
+                    android:layout_width="0dp"
+                    android:layout_height="28dp"
+                    android:layout_weight="1"
+                    android:hint="My mon"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#80FFFFFF"
+                    android:textSize="11sp"
+                    android:background="#33000000"
+                    android:paddingHorizontal="6dp"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/et_my_move1"
+                    android:layout_width="90dp"
+                    android:layout_height="28dp"
+                    android:hint="Move"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#80FFFFFF"
+                    android:textSize="11sp"
+                    android:background="#33000000"
+                    android:paddingHorizontal="6dp"
+                    android:singleLine="true"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+            <!-- My Pokemon 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="P2:"
+                    android:textColor="#64B5F6"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="4dp" />
+
+                <EditText
+                    android:id="@+id/et_my_pokemon2"
+                    android:layout_width="0dp"
+                    android:layout_height="28dp"
+                    android:layout_weight="1"
+                    android:hint="My mon"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#80FFFFFF"
+                    android:textSize="11sp"
+                    android:background="#33000000"
+                    android:paddingHorizontal="6dp"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/et_my_move2"
+                    android:layout_width="90dp"
+                    android:layout_height="28dp"
+                    android:hint="Move"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#80FFFFFF"
+                    android:textSize="11sp"
+                    android:background="#33000000"
+                    android:paddingHorizontal="6dp"
+                    android:singleLine="true"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+            <!-- My HP row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/my_hp_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="HP: 100|100"
+                    android:textColor="#A5D6A7"
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/hp_my_25"
-                    android:layout_width="0dp"
-                    android:layout_height="28dp"
-                    android:layout_weight="1"
+                    android:layout_width="36dp"
+                    android:layout_height="24dp"
                     android:text="-25"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     android:gravity="center"
                     android:padding="0dp"
-                    style="@style/HpButton" />
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="#FFFFFF" />
 
                 <Button
                     android:id="@+id/hp_my_50"
-                    android:layout_width="0dp"
-                    android:layout_height="28dp"
-                    android:layout_weight="1"
+                    android:layout_width="36dp"
+                    android:layout_height="24dp"
                     android:text="-50"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     android:gravity="center"
                     android:padding="0dp"
-                    style="@style/HpButton" />
-
-                <Button
-                    android:id="@+id/hp_my_75"
-                    android:layout_width="0dp"
-                    android:layout_height="28dp"
-                    android:layout_weight="1"
-                    android:text="-75"
-                    android:textSize="10sp"
-                    android:gravity="center"
-                    android:padding="0dp"
-                    style="@style/HpButton" />
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="#FFFFFF" />
 
                 <Button
                     android:id="@+id/hp_my_100"
-                    android:layout_width="0dp"
-                    android:layout_height="28dp"
-                    android:layout_weight="1"
+                    android:layout_width="36dp"
+                    android:layout_height="24dp"
                     android:text="KO"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     android:gravity="center"
                     android:padding="0dp"
-                    style="@style/HpButtonDeath" />
+                    android:backgroundTint="#F44336"
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
 
             <!-- Divider -->
@@ -200,143 +244,194 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#3FFFFFFF"
-                android:layout_marginVertical="8dp" />
+                android:layout_marginVertical="6dp" />
 
-            <!-- Opponent Side -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="— OPPONENT —"
-                android:textColor="#EF9A9A"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/et_opp_pokemon"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:hint="Opponent Pokémon"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#80FFFFFF"
-                android:textSize="12sp"
-                android:background="#33000000"
-                android:paddingHorizontal="8dp"
-                android:singleLine="true" />
-
-            <EditText
-                android:id="@+id/et_opp_move"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:hint="Move used"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#80FFFFFF"
-                android:textSize="12sp"
-                android:background="#33000000"
-                android:paddingHorizontal="8dp"
-                android:singleLine="true"
-                android:layout_marginTop="4dp" />
-
-            <TextView
-                android:id="@+id/opp_hp_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Opp HP: 100%"
-                android:textColor="#EF9A9A"
-                android:textSize="11sp"
-                android:layout_marginTop="4dp" />
-
+            <!-- Opponent Pokemon 1 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="2dp">
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="P1:"
+                    android:textColor="#EF9A9A"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="4dp" />
+
+                <EditText
+                    android:id="@+id/et_opp_pokemon1"
+                    android:layout_width="0dp"
+                    android:layout_height="28dp"
+                    android:layout_weight="1"
+                    android:hint="Opp mon"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#80FFFFFF"
+                    android:textSize="11sp"
+                    android:background="#33000000"
+                    android:paddingHorizontal="6dp"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/et_opp_move1"
+                    android:layout_width="90dp"
+                    android:layout_height="28dp"
+                    android:hint="Move"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#80FFFFFF"
+                    android:textSize="11sp"
+                    android:background="#33000000"
+                    android:paddingHorizontal="6dp"
+                    android:singleLine="true"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+            <!-- Opponent Pokemon 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="P2:"
+                    android:textColor="#EF9A9A"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="4dp" />
+
+                <EditText
+                    android:id="@+id/et_opp_pokemon2"
+                    android:layout_width="0dp"
+                    android:layout_height="28dp"
+                    android:layout_weight="1"
+                    android:hint="Opp mon"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#80FFFFFF"
+                    android:textSize="11sp"
+                    android:background="#33000000"
+                    android:paddingHorizontal="6dp"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/et_opp_move2"
+                    android:layout_width="90dp"
+                    android:layout_height="28dp"
+                    android:hint="Move"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#80FFFFFF"
+                    android:textSize="11sp"
+                    android:background="#33000000"
+                    android:paddingHorizontal="6dp"
+                    android:singleLine="true"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
+
+            <!-- Opp HP row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/opp_hp_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="HP: 100|100"
+                    android:textColor="#EF9A9A"
+                    android:textSize="10sp" />
 
                 <Button
                     android:id="@+id/hp_opp_25"
-                    android:layout_width="0dp"
-                    android:layout_height="28dp"
-                    android:layout_weight="1"
+                    android:layout_width="36dp"
+                    android:layout_height="24dp"
                     android:text="-25"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     android:gravity="center"
                     android:padding="0dp"
-                    style="@style/HpButton" />
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="#FFFFFF" />
 
                 <Button
                     android:id="@+id/hp_opp_50"
-                    android:layout_width="0dp"
-                    android:layout_height="28dp"
-                    android:layout_weight="1"
+                    android:layout_width="36dp"
+                    android:layout_height="24dp"
                     android:text="-50"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     android:gravity="center"
                     android:padding="0dp"
-                    style="@style/HpButton" />
-
-                <Button
-                    android:id="@+id/hp_opp_75"
-                    android:layout_width="0dp"
-                    android:layout_height="28dp"
-                    android:layout_weight="1"
-                    android:text="-75"
-                    android:textSize="10sp"
-                    android:gravity="center"
-                    android:padding="0dp"
-                    style="@style/HpButton" />
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="#FFFFFF" />
 
                 <Button
                     android:id="@+id/hp_opp_100"
-                    android:layout_width="0dp"
-                    android:layout_height="28dp"
-                    android:layout_weight="1"
+                    android:layout_width="36dp"
+                    android:layout_height="24dp"
                     android:text="KO"
-                    android:textSize="10sp"
+                    android:textSize="9sp"
                     android:gravity="center"
                     android:padding="0dp"
-                    style="@style/HpButtonDeath" />
+                    android:backgroundTint="#F44336"
+                    android:textColor="#FFFFFF" />
             </LinearLayout>
 
-            <!-- Add Turn Button -->
-            <Button
-                android:id="@+id/btn_add_turn"
+            <!-- Add Turn & Events Buttons -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:text="+ LOG THIS TURN"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#1565C0" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical">
+
+                <Button
+                    android:id="@+id/btn_add_turn"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="1"
+                    android:text="+ LOG TURN"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="#1565C0"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/btn_events"
+                    android:layout_width="80dp"
+                    android:layout_height="32dp"
+                    android:text="Events"
+                    android:textSize="9sp"
+                    android:backgroundTint="#7B1FA2"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginStart="4dp" />
+            </LinearLayout>
 
             <!-- Battle Log -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="— RECENT LOG —"
+                android:text="— RECENT —"
                 android:textColor="#78909C"
                 android:textSize="10sp"
                 android:textStyle="bold"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="6dp" />
 
             <LinearLayout
                 android:id="@+id/log_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="4dp" />
-
-            <!-- Notes input -->
-            <EditText
-                android:id="@+id/et_notes"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:hint="Notes (optional)"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#80FFFFFF"
-                android:textSize="11sp"
-                android:background="#33000000"
-                android:paddingHorizontal="8dp"
-                android:singleLine="true"
-                android:layout_marginTop="4dp" />
+                android:padding="2dp"
+                android:background="#22000000"
+                android:layout_marginTop="2dp" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -2,7 +2,6 @@
 <resources>
     <style name="Theme.ChampionsLogger" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">#1A237E</item>
-        <item name="colorPrimaryVariant">#283593</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#F44336</item>
         <item name="colorOnSecondary">#FFFFFF</item>
@@ -10,21 +9,5 @@
         <item name="colorSurface">#1B2838</item>
         <item name="colorOnSurface">#E0E0E0</item>
         <item name="android:statusBarColor">#0D1B2A</item>
-    </style>
-
-    <style name="HpButton" parent="Widget.Material3.Button">
-        <item name="backgroundTint">#4CAF50</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="cornerRadius">4dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-    </style>
-
-    <style name="HpButtonDeath" parent="Widget.Material3.Button">
-        <item name="backgroundTint">#F44336</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="cornerRadius">4dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
     </style>
 </resources>
