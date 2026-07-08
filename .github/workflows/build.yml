@@ -34,6 +34,7 @@ jobs:
 
       - name: Build release APK
         run: |
+          export ANDROID_HOME=/usr/local/lib/android/sdk
           # Generate wrapper first
           gradle wrapper --gradle-version=8.11.1
           # Build
@@ -41,16 +42,18 @@ jobs:
 
       - name: Sign APK (debug key)
         run: |
+          export ANDROID_HOME=/usr/local/lib/android/sdk
+          BUILD_TOOLS="$ANDROID_HOME/build-tools/35.0.0"
           # Generate a debug keystore and sign
           keytool -genkey -v -keystore debug.keystore -storepass android \
             -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 \
             -validity 10000 -dname "CN=Android Debug, O=Android, C=US" 2>/dev/null
           # Align
-          zipalign -v -p 4 \
+          "$BUILD_TOOLS/zipalign" -v -p 4 \
             app/build/outputs/apk/release/app-release-unsigned.apk \
             app/build/outputs/apk/release/ChampionsBattleLogger.apk 2>&1 | tail -3
           # Sign
-          apksigner sign --ks debug.keystore --ks-pass pass:android \
+          "$BUILD_TOOLS/apksigner" sign --ks debug.keystore --ks-pass pass:android \
             --ks-key-alias androiddebugkey --key-pass pass:android \
             app/build/outputs/apk/release/ChampionsBattleLogger.apk 2>&1
 
