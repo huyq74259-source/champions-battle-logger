@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.core.app.NotificationCompat
 import com.championslogger.MainActivity
+import com.championslogger.R
 import com.championslogger.data.TurnRecord
 
 class OverlayService : Service() {
