@@ -29,13 +29,20 @@ class OverlayService : Service() {
         const val NOTIFICATION_ID = 1001
         const val CHANNEL_ID = "champions_overlay"
 
-        // Current state (shared via static access for simplicity)
-        val currentMyPokemon = mutableStateOf("")
-        val currentMyMove = mutableStateOf("")
-        val currentOpponentPokemon = mutableStateOf("")
-        val currentOpponentMove = mutableStateOf("")
-        val currentMyHp = mutableStateOf(100)
-        val currentOpponentHp = mutableStateOf(100)
+        // Current state — Doubles (2 mons per side)
+        val currentMyPokemon1 = mutableStateOf("")
+        val currentMyMove1 = mutableStateOf("")
+        val currentMyPokemon2 = mutableStateOf("")
+        val currentMyMove2 = mutableStateOf("")
+        val currentOpponentPokemon1 = mutableStateOf("")
+        val currentOpponentMove1 = mutableStateOf("")
+        val currentOpponentPokemon2 = mutableStateOf("")
+        val currentOpponentMove2 = mutableStateOf("")
+        val currentMyHp1 = mutableStateOf(100)
+        val currentMyHp2 = mutableStateOf(100)
+        val currentOpponentHp1 = mutableStateOf(100)
+        val currentOpponentHp2 = mutableStateOf(100)
+        val lastEvent = mutableStateOf("") // e.g. "Mega! | Drought | Crit | Focus Sash"
 
         val turns = mutableListOf<TurnRecord>()
         var currentTurnNumber = mutableStateOf(0)
