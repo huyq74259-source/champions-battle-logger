@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Background circle -->
+    <path
+        android:fillColor="#1A237E"
+        android:pathData="M54,54m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0" />
+    <!-- Pokeball style icon - top half -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,54m-25,0a25,25 0,0 1,25 -25a25,25 0,0 1,25 25" />
+    <!-- Bottom half -->
+    <path
+        android:fillColor="#F44336"
+        android:pathData="M54,54m-25,0a25,25 0,0 0,25 25a25,25 0,0 0,25 -25" />
+    <!-- Center line -->
+    <path
+        android:fillColor="#37474F"
+        android:strokeWidth="2"
+        android:pathData="M29,54L79,54" />
+    <!-- Center circle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,54m-7,0a7,7 0,1 1,14 0a7,7 0,1 1,-14 0" />
+    <path
+        android:fillColor="#37474F"
+        android:strokeWidth="1.5"
+        android:pathData="M54,54m-5.5,0a5.5,5.5 0,1 1,11 0a5.5,5.5 0,1 1,-11 0" />
+</vector>
